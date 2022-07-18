@@ -1,61 +1,98 @@
 <thumbnail [src]="image"></thumbnail>
 <div class="container">
-    <h2 style="margin-left: auto; margin-right: auto; margin-top: 20px; text-align: center; font-weight: bold;">
-        Music Band / DJ
-    </h2>
-    <main-description>Live music is a key part of your wedding, and hiring the right wedding musicians can create magical moments that you and your partner remember for the rest of your lives. Hiring wedding musicians can seem like a daunting task, but it doesn’t have to be. </main-description>
-  
-    <hr>
+  <h2
+    style="
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    ">
+    Music Band / DJ
+  </h2>
+  <main-description
+    >Live music is a key part of your wedding, and hiring the right wedding
+    musicians can create magical moments that you and your partner remember for
+    the rest of your lives. Hiring wedding musicians can seem like a daunting
+    task, but it doesn’t have to be.
+  </main-description>
 
-    <div *ngIf="!addMode">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">name</th>
-            <th scope="col">info</th>
-            <th scope="col">price</th>
-            <th scope="col">opinion</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let band of bands; index as i">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{band.name}}</td>
-            <td>{{band.info}}</td>
-            <td>{{band.price}}</td>
-            <td>{{band.opinion}}</td>
-            <td><button type="button" class="btn btn-primary" (click)="removeBand(band)">Remove</button></td>
-          </tr>
-        </tbody>
-      </table>
+  <hr />
 
-      <button type="button" class="btn btn-primary my-sm-4" (click)="changeAddMode()">
-        Dodaj nowy element
+  <div *ngIf="!addMode">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">name</th>
+          <th scope="col">info</th>
+          <th scope="col">price</th>
+          <th scope="col">opinion</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let band of bands; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ band.name }}</td>
+          <td>{{ band.info }}</td>
+          <td>{{ band.price }}</td>
+          <td>{{ band.opinion }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="removeBand(band)">
+              Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button
+      type="button"
+      class="btn btn-primary my-sm-4"
+      (click)="changeAddMode()">
+      Dodaj nowy element
+    </button>
+  </div>
+
+  <div *ngIf="addMode">
+    <p class="h4 mt-5">Add new band by filling this form:</p>
+    <form #newBandForm="ngForm" (ngSubmit)="submitForm(newBandForm.value)">
+      <div class="form-group">
+        <label for="name" class="form-label">Name:</label>
+        <input ngModel type="text" id="name" name="name" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="info" class="form-label">Info:</label>
+        <input ngModel type="text" id="info" name="info" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="price" class="form-label">Price:</label>
+        <input
+          ngModel
+          type="number"
+          id="price"
+          name="price"
+          class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="opinion" class="form-label">Opinion:</label>
+        <input
+          ngModel
+          type="text"
+          id="opinion"
+          name="opinion"
+          class="form-control" />
+      </div>
+      <button type="submit" class="btn btn-primary">Zapisz!</button>
+      <button
+        type="button"
+        class="btn btn-primary ml-2"
+        (click)="changeAddMode()">
+        Anuluj
       </button>
-    </div>
-  
-    <div *ngIf="addMode">
-      <p class="h4 mt-5">Add new band by filling this form:</p>
-      <form #newBandForm="ngForm" (ngSubmit)="submitForm(newBandForm.value)">
-          <div class="form-group">
-            <label for="name" class="form-label">Name:</label>
-            <input ngModel type="text" id="name" name="name" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="info" class="form-label">Info:</label>
-            <input ngModel type="text" id="info" name="info" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="price" class="form-label">Price:</label>
-            <input ngModel type="number" id="price" name="price" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="opinion" class="form-label">Opinion:</label>
-            <input ngModel type="text" id="opinion" name="opinion" class="form-control">
-          </div>
-          <button type="submit" class="btn btn-primary">Zapisz!</button>
-          <button type="button" class="btn btn-primary ml-2" (click)="changeAddMode()">Anuluj</button>
-      </form>
-    </div>
+    </form>
+  </div>
 </div>

@@ -1,7 +1,18 @@
 <div #numberInputFormGroup class="form-group">
-    <label for="input-number" class="form-label">{{label}}:</label>
-    <em [ngClass]="{'error-em': isLessThanZero}">Value must be greater than zero</em>
-    <em [ngClass]="{'error-em': isNotANumber}">Value must be a valid number</em>
-    <!-- TODO: this is not submited with the main form and the button is not blocked -->
-    <input #numberInput ngModel (input)="validateNumber(numberInput)" [ngClass]="{'error-in': isNotANumber || isLessThanZero}" type="text" [(id)]="nameId" [attr.name]="nameName" class="form-control" autocomplete="off">
+  <label for="input-number" class="form-label">{{ label }}:</label>
+  <em [ngClass]="{ 'error-em': isLessThanZero }"
+    >Value must be greater than zero</em
+  >
+  <em [ngClass]="{ 'error-em': isNotANumber }">Value must be a valid number</em>
+  <!-- TODO: this is not submited with the main form and the button is not blocked -->
+  <input
+    #numberInput
+    ngModel
+    (input)="validateNumber(numberInput)"
+    [ngClass]="{ 'error-in': isNotANumber || isLessThanZero }"
+    type="text"
+    [(id)]="nameId"
+    [attr.name]="nameName"
+    class="form-control"
+    autocomplete="off" />
 </div>

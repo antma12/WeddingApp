@@ -41,7 +41,7 @@ import { NumberInput } from './number-input/number-input.component';
     MassFunctionsComponent,
     ExpensesComponent,
     TodosComponent,
-    VideographerComponent
+    VideographerComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,8 +58,8 @@ import { NumberInput } from './number-input/number-input.component';
     SongService,
     MassFunctionService,
     TodoService,
-    ExpenseService
+    ExpenseService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

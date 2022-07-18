@@ -1,55 +1,93 @@
 <thumbnail [src]="image"></thumbnail>
 <div class="container">
-    <h2 style="margin-left: auto; margin-right: auto; margin-top: 20px; text-align: center; font-weight: bold;">
-        Playlist
-    </h2>
-    <main-description>So, if you want to write the next big wedding song, here’s my advice. Write a heartfelt love song with a beautiful, memorable melody—a song with a fresh, original lyric that conveys the love and devotion a new bride and groom would feel in each other’s arms. But don’t write a song about a wedding.</main-description>
-  
-    <hr>
-  
-    <div *ngIf="!addMode">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">name</th>
-            <th scope="col">artist</th>
-            <th scope="col">comment</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let song of songs; index as i">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{song.name}}</td>
-            <td>{{song.artist}}</td>
-            <td>{{song.comment}}</td>
-            <td><button type="button" class="btn btn-primary" (click)="removeSong(song)">Remove</button></td>
-          </tr>
-        </tbody>
-      </table>
+  <h2
+    style="
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    ">
+    Playlist
+  </h2>
+  <main-description
+    >So, if you want to write the next big wedding song, here’s my advice. Write
+    a heartfelt love song with a beautiful, memorable melody—a song with a
+    fresh, original lyric that conveys the love and devotion a new bride and
+    groom would feel in each other’s arms. But don’t write a song about a
+    wedding.</main-description
+  >
 
-      <button type="button" class="btn btn-primary my-sm-4" (click)="changeAddMode()">
-        Dodaj nowy element
-      </button>
-    </div>
-  
-    <div *ngIf="addMode">
-      <p class="h4 mt-5">Add new song by filling this form:</p>
-      <form #newSongForm="ngForm" (ngSubmit)="submitForm(newSongForm.value)">
-          <div class="form-group">
-            <label for="name" class="form-label">Name:</label>
-            <input ngModel type="text" id="name" name="name" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="artist" class="form-label">Artist:</label>
-            <input ngModel type="text" id="artist" name="artist" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="comment" class="form-label">Comment:</label>
-            <input ngModel type="text" id="comment" name="comment" class="form-control">
-          </div>
-          <button type="submit" class="btn btn-primary">Zapisz!</button>
-          <button type="button" class="btn btn-primary ml-2" (click)="changeAddMode()">Anuluj</button>
-      </form>
-    </div>
+  <hr />
+
+  <div *ngIf="!addMode">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">name</th>
+          <th scope="col">artist</th>
+          <th scope="col">comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let song of songs; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ song.name }}</td>
+          <td>{{ song.artist }}</td>
+          <td>{{ song.comment }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="removeSong(song)">
+              Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button
+      type="button"
+      class="btn btn-primary my-sm-4"
+      (click)="changeAddMode()">
+      Dodaj nowy element
+    </button>
   </div>
+
+  <div *ngIf="addMode">
+    <p class="h4 mt-5">Add new song by filling this form:</p>
+    <form #newSongForm="ngForm" (ngSubmit)="submitForm(newSongForm.value)">
+      <div class="form-group">
+        <label for="name" class="form-label">Name:</label>
+        <input ngModel type="text" id="name" name="name" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="artist" class="form-label">Artist:</label>
+        <input
+          ngModel
+          type="text"
+          id="artist"
+          name="artist"
+          class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="comment" class="form-label">Comment:</label>
+        <input
+          ngModel
+          type="text"
+          id="comment"
+          name="comment"
+          class="form-control" />
+      </div>
+      <button type="submit" class="btn btn-primary">Zapisz!</button>
+      <button
+        type="button"
+        class="btn btn-primary ml-2"
+        (click)="changeAddMode()">
+        Anuluj
+      </button>
+    </form>
+  </div>
+</div>

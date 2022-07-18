@@ -1,67 +1,144 @@
 <thumbnail [src]="image"></thumbnail>
 <div class="container">
-    <h2 style="margin-left: auto; margin-right: auto; margin-top: 20px; text-align: center; font-weight: bold;">
-        Videographer
-    </h2>
-    <main-description>The job of a wedding videographer focuses on recording a wedding, and related events with a video camera. His responsibilities vary depending on the needs and plans of each client. As a wedding videographer, he usually meets with each couple before the wedding to assess their needs and plan the project. He may film the couple throughout the day, record them at the wedding venue, and capture images during the ceremony and reception. After the wedding, he edits the footage to create a wedding film for your clients. A wedding videographer captures the celebration of a couple’s marriage. There are many videographers out there and they all have their own style. They often release many videos regarding weddings on their websites so that clients watch sample videos on websites or demos, check to see if the photographer is versatile. The clients can also check that the videographer always does the same style of video. He is adjusting to the bride and grooms’ personalities or not.</main-description>
-  
-    <hr>
-  
-    <div *ngIf="!addMode">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">name</th>
-            <th scope="col">website</th>
-            <th scope="col">cameraman</th>
-            <th scope="col">photographer</th>
-            <th scope="col">chosen</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let videographer of videographers; index as i">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{videographer.name}}</td>
-            <td>{{videographer.website}}</td>
-            <td><input [attr.checked]="videographer.cameraman ? true : null" disabled type="checkbox" class="form-check-input"/></td>
-            <td><input [attr.checked]="videographer.photographer ? true : null" disabled type="checkbox" class="form-check-input"/></td>
-            <td><input [attr.checked]="videographer.chosen ? true : null" disabled type="checkbox" class="form-check-input"/></td>
-            <td><button type="button" class="btn btn-primary" (click)="removeVideographer(videographer)">Remove</button></td>
-          </tr>
-        </tbody>
-      </table>
+  <h2
+    style="
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    ">
+    Videographer
+  </h2>
+  <main-description
+    >The job of a wedding videographer focuses on recording a wedding, and
+    related events with a video camera. His responsibilities vary depending on
+    the needs and plans of each client. As a wedding videographer, he usually
+    meets with each couple before the wedding to assess their needs and plan the
+    project. He may film the couple throughout the day, record them at the
+    wedding venue, and capture images during the ceremony and reception. After
+    the wedding, he edits the footage to create a wedding film for your clients.
+    A wedding videographer captures the celebration of a couple’s marriage.
+    There are many videographers out there and they all have their own style.
+    They often release many videos regarding weddings on their websites so that
+    clients watch sample videos on websites or demos, check to see if the
+    photographer is versatile. The clients can also check that the videographer
+    always does the same style of video. He is adjusting to the bride and
+    grooms’ personalities or not.</main-description
+  >
 
-      <button type="button" class="btn btn-primary my-sm-4" (click)="changeAddMode()">
-        Dodaj nowy element
+  <hr />
+
+  <div *ngIf="!addMode">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">name</th>
+          <th scope="col">website</th>
+          <th scope="col">cameraman</th>
+          <th scope="col">photographer</th>
+          <th scope="col">chosen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let videographer of videographers; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ videographer.name }}</td>
+          <td>{{ videographer.website }}</td>
+          <td>
+            <input
+              [attr.checked]="videographer.cameraman ? true : null"
+              disabled
+              type="checkbox"
+              class="form-check-input" />
+          </td>
+          <td>
+            <input
+              [attr.checked]="videographer.photographer ? true : null"
+              disabled
+              type="checkbox"
+              class="form-check-input" />
+          </td>
+          <td>
+            <input
+              [attr.checked]="videographer.chosen ? true : null"
+              disabled
+              type="checkbox"
+              class="form-check-input" />
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="removeVideographer(videographer)">
+              Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button
+      type="button"
+      class="btn btn-primary my-sm-4"
+      (click)="changeAddMode()">
+      Dodaj nowy element
+    </button>
+  </div>
+
+  <div *ngIf="addMode">
+    <p class="h4 mt-5">Add new videographer by filling this form:</p>
+    <form
+      #newVideographerForm="ngForm"
+      (ngSubmit)="submitForm(newVideographerForm.value)">
+      <div class="form-group">
+        <label for="name" class="form-label">Name:</label>
+        <input ngModel type="text" id="name" name="name" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="website" class="form-label">Website:</label>
+        <input
+          ngModel
+          type="text"
+          id="website"
+          name="website"
+          class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="cameraman" class="form-label">Cameraman:</label>
+        <input
+          ngModel
+          type="checkbox"
+          id="cameraman"
+          name="cameraman"
+          class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="photographer" class="form-label">Photographer:</label>
+        <input
+          ngModel
+          type="checkbox"
+          id="photographer"
+          name="photographer"
+          class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="chosen" class="form-label">Chosen:</label>
+        <input
+          ngModel
+          type="checkbox"
+          id="chosen"
+          name="chosen"
+          class="form-control" />
+      </div>
+      <button type="submit" class="btn btn-primary">Zapisz!</button>
+      <button
+        type="button"
+        class="btn btn-primary ml-2"
+        (click)="changeAddMode()">
+        Anuluj
       </button>
-    </div>
-  
-    <div *ngIf="addMode">
-      <p class="h4 mt-5">Add new videographer by filling this form:</p>
-      <form #newVideographerForm="ngForm" (ngSubmit)="submitForm(newVideographerForm.value)">
-          <div class="form-group">
-            <label for="name" class="form-label">Name:</label>
-            <input ngModel type="text" id="name" name="name" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="website" class="form-label">Website:</label>
-            <input ngModel type="text" id="website" name="website" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="cameraman" class="form-label">Cameraman:</label>
-            <input ngModel type="checkbox" id="cameraman" name="cameraman" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="photographer" class="form-label">Photographer:</label>
-            <input ngModel type="checkbox" id="photographer" name="photographer" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="chosen" class="form-label">Chosen:</label>
-            <input ngModel type="checkbox" id="chosen" name="chosen" class="form-control">
-          </div>
-          <button type="submit" class="btn btn-primary">Zapisz!</button>
-          <button type="button" class="btn btn-primary ml-2" (click)="changeAddMode()">Anuluj</button>
-      </form>
-    </div>
+    </form>
+  </div>
 </div>

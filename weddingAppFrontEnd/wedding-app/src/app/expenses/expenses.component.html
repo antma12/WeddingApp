@@ -1,73 +1,134 @@
 <thumbnail [src]="image"></thumbnail>
 <div class="container">
-    <h2 style="margin-left: auto; margin-right: auto; margin-top: 20px; text-align: center; font-weight: bold;">
-        Expenses
-    </h2>
-    <main-description> Planning a wedding is an event in itself, but who pays for what? It's helpful to have a firm budget in place to keep spending on track. The average wedding cost $33,900 in 2019, according to research by The Knot—just a bit less than in 2018. As you and your spouse-to-be undertake wedding planning, determining how you fund it will be an important part of keeping the event as happy and stress free as anything that stressful can be. How you handle these discussions (even more than where the money actually comes from) can shape future family relationships for a long time afterward. And, of course, there's the effect on your budget during the first years of your marriage.</main-description>
-  
-    <hr>
-  
-    <div *ngIf="!addMode">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">name</th>
-            <th scope="col">type</th>
-            <th scope="col">minimal cost</th>
-            <th scope="col">maximal cost</th>
-            <th scope="col">actual cost</th>
-            <th scope="col">split cost</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let expense of expenses; index as i">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{expense.name}}</td>
-            <td>{{expense.type}}</td>
-            <td>{{expense.minCost}}</td>
-            <td>{{expense.maxCost}}</td>
-            <td>{{expense.actualCost}}</td>
-            <td><input [attr.checked]="expense.splitCost ? true : null" disabled type="checkbox" class="form-check-input"/></td>
-            <td><button type="button" class="btn btn-primary" (click)="removeExpense(expense)">Remove</button></td>
-          </tr>
-        </tbody>
-      </table>
+  <h2
+    style="
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    ">
+    Expenses
+  </h2>
+  <main-description>
+    Planning a wedding is an event in itself, but who pays for what? It's
+    helpful to have a firm budget in place to keep spending on track. The
+    average wedding cost $33,900 in 2019, according to research by The Knot—just
+    a bit less than in 2018. As you and your spouse-to-be undertake wedding
+    planning, determining how you fund it will be an important part of keeping
+    the event as happy and stress free as anything that stressful can be. How
+    you handle these discussions (even more than where the money actually comes
+    from) can shape future family relationships for a long time afterward. And,
+    of course, there's the effect on your budget during the first years of your
+    marriage.</main-description
+  >
 
-      <button type="button" class="btn btn-primary my-sm-4" (click)="changeAddMode()">
-        Dodaj nowy element
+  <hr />
+
+  <div *ngIf="!addMode">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">name</th>
+          <th scope="col">type</th>
+          <th scope="col">minimal cost</th>
+          <th scope="col">maximal cost</th>
+          <th scope="col">actual cost</th>
+          <th scope="col">split cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let expense of expenses; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ expense.name }}</td>
+          <td>{{ expense.type }}</td>
+          <td>{{ expense.minCost }}</td>
+          <td>{{ expense.maxCost }}</td>
+          <td>{{ expense.actualCost }}</td>
+          <td>
+            <input
+              [attr.checked]="expense.splitCost ? true : null"
+              disabled
+              type="checkbox"
+              class="form-check-input" />
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="removeExpense(expense)">
+              Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button
+      type="button"
+      class="btn btn-primary my-sm-4"
+      (click)="changeAddMode()">
+      Dodaj nowy element
+    </button>
+  </div>
+
+  <div *ngIf="addMode">
+    <p class="h4 mt-5">Add new expense by filling this form:</p>
+    <form
+      #newExpenseForm="ngForm"
+      (ngSubmit)="submitForm(newExpenseForm.value)">
+      <div class="form-group">
+        <label for="name" class="form-label">name:</label>
+        <input ngModel type="text" id="name" name="name" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="type" class="form-label">type:</label>
+        <input ngModel type="text" id="type" name="type" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="minCost" class="form-label">minimal cost:</label>
+        <input
+          ngModel
+          type="number"
+          id="minCost"
+          name="minCost"
+          class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="maxCost" class="form-label">maximal cost:</label>
+        <input
+          ngModel
+          type="number"
+          id="maxCost"
+          name="maxCost"
+          class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="actualCost" class="form-label">actual cost:</label>
+        <input
+          ngModel
+          type="number"
+          id="actualCost"
+          name="actualCost"
+          class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="splitCost" class="form-label">split cost:</label>
+        <input
+          ngModel
+          type="checkbox"
+          id="splitCost"
+          name="splitCost"
+          class="form-control" />
+      </div>
+      <button type="submit" class="btn btn-primary">Zapisz!</button>
+      <button
+        type="button"
+        class="btn btn-primary ml-2"
+        (click)="changeAddMode()">
+        Anuluj
       </button>
-    </div>
-  
-    <div *ngIf="addMode">
-      <p class="h4 mt-5">Add new expense by filling this form:</p>
-      <form #newExpenseForm="ngForm" (ngSubmit)="submitForm(newExpenseForm.value)">
-          <div class="form-group">
-            <label for="name" class="form-label">name:</label>
-            <input ngModel type="text" id="name" name="name" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="type" class="form-label">type:</label>
-            <input ngModel type="text" id="type" name="type" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="minCost" class="form-label">minimal cost:</label>
-            <input ngModel type="number" id="minCost" name="minCost" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="maxCost" class="form-label">maximal cost:</label>
-            <input ngModel type="number" id="maxCost" name="maxCost" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="actualCost" class="form-label">actual cost:</label>
-            <input ngModel type="number" id="actualCost" name="actualCost" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="splitCost" class="form-label">split cost:</label>
-            <input ngModel type="checkbox" id="splitCost" name="splitCost" class="form-control">
-          </div>
-          <button type="submit" class="btn btn-primary">Zapisz!</button>
-          <button type="button" class="btn btn-primary ml-2" (click)="changeAddMode()">Anuluj</button>
-      </form>
-    </div>
+    </form>
+  </div>
 </div>

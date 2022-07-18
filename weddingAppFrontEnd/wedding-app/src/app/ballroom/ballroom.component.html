@@ -1,151 +1,374 @@
 <thumbnail [src]="image"></thumbnail>
 <div class="container">
-    <h2 style="margin-left: auto; margin-right: auto; margin-top: 20px; text-align: center; font-weight: bold;">
-        Venue
-    </h2>
-    <main-description>Ballrooms have an elegant charm that can elevate any wedding reception. From celebrating your first dance as newlyweds surrounded by loved ones to the traditional bouquet toss, a ballroom wedding can host some of your favorite memories. When choosing the ballroom for your wedding reception, it is important to remember that the majority of your wedding day—and ultimately candid shots from your wedding—will be spent in this space.</main-description>
-  
-    <div *ngIf="!addMode && !editMode">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">City</th>
-            <th scope="col">Distance</th>
-            <th scope="col">Available Dates</th>
-            <th scope="col">Price</th>
-            <th scope="col">Guest rooms</th>
-            <th scope="col">Price per night</th>
-            <th scope="col">Comments</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let ballroom of ballrooms; index as i">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{ballroom.name}}</td>
-            <td>{{ballroom.city}}</td>
-            <td>{{ballroom.distance}}</td>
-            <td>
-              <span *ngFor="let date of ballroom.availableDates; index as j">
-                <span *ngIf="j != 0">,</span> {{date | date:"dd.MM.yyyy"}}</span>
-            </td>
-            <td>{{ballroom.price}}</td>
-            <td style="text-align:center;"><input [attr.checked]="ballroom.isWithNightStay ? true : null" disabled type="checkbox" class="form-check-input"/></td>
-            <td>{{ballroom.pricePerNight}}</td>
-            <td>{{ballroom.opinion}}</td>
-            <td><button type="button" class="btn btn-primary" (click)="changeEditMode(ballroom)">Edit</button></td>
-            <td><button type="button" class="btn btn-danger" (click)="removeBallroom(ballroom)">Remove</button></td>
-          </tr>
-        </tbody>
-      </table>
-     
-      <button type="button" class="btn btn-primary my-sm-4" (click)="changeAddMode()">
-        Add new element
-      </button>
-    </div>
-  
-    <div *ngIf="addMode">
-      <p class="h4 mt-5">Add new venue by filling this form:</p>
-      <form #newBallroomForm="ngForm" (ngSubmit)="submitAddForm(newBallroomForm.value)">
-          <div class="form-group" [ngClass]="{'error': newBallroomForm.controls.name?.invalid && newBallroomForm.controls.name?.touched}">
-            <label for="name" class="form-label">Name * :</label>
-            <em *ngIf="newBallroomForm.controls.name?.invalid && (newBallroomForm.controls.name?.touched)">Required</em>
-            <input ngModel type="text" id="name" name="name" class="form-control" required autocomplete="off">
-          </div>
-          <div class="form-group">
-            <label for="city" class="form-label">City:</label>
-            <input ngModel type="text" id="city" name="city" class="form-control" autocomplete="off">
-          </div>
-          <div class="form-group">
-            <label for="distance" class="form-label">Distance (km):</label>
-            <em [ngClass]="{'error-em': formErrors?.distance?.isLessThanZero}">Value must be greater than zero</em>
-            <em [ngClass]="{'error-em': formErrors?.distance?.isNotANumber}">Value must be a valid number</em>
-            <!-- (ngModelChange)="modelChangeFn(distanceInput, $event) [(ngModel)]="distanceAdd"" -->
-            <input ngModel #distanceInput (input)="validateNumber(distanceInput)" [ngClass]="{'error-in': formErrors?.distance?.isNotANumber || formErrors?.distance?.isLessThanZero}" type="text" id="distance" name="distance" class="form-control" autocomplete="off">
-        </div>
-          <div class="form-group">
-            <label for="dates" class="form-label">Available dates:</label>
-            <input id="dates" name="dates" class="form-control" [(ngModel)]="availableDatesAdd" type="hidden" readonly/>
-            <div *ngIf="availableDatesAdd.length > 0">
-              <div *ngFor="let availableDateAdd of availableDatesAdd" class="input-sub-element">
-                <span>{{availableDateAdd}}</span><span class="button-x" (click)="removeDateAdd(availableDateAdd)">X</span>
-              </div>
-            </div>
-            <input #datesInput type="date" id="datesInput" name="datesInput" class="form-control" (input)="handleDateInputAdd(datesInput)">
-          </div>
-          <div class="form-group">
-            <label for="price" class="form-label">Price:</label>
-            <em [ngClass]="{'error-em': formErrors?.price?.isLessThanZero}">Value must be greater than zero</em>
-            <em [ngClass]="{'error-em': formErrors?.price?.isNotANumber}">Value must be a valid number</em>
-            <input ngModel #priceInput (input)="validateNumber(priceInput)" type="text" id="price" name="price" class="form-control" autocomplete="off">
-          </div>  
-          <div class="form-group">
-            <label for="pricePerNight" class="form-label">Price per night:</label>
-            <em [ngClass]="{'error-em': formErrors?.pricePerNight?.isLessThanZero}">Value must be greater than zero</em>
-            <em [ngClass]="{'error-em': formErrors?.pricePerNight?.isNotANumber}">Value must be a valid number</em>
-            <input ngModel #pricePerNightInput (input)="validateNumber(pricePerNightInput)" type="text" id="pricePerNight" name="pricePerNight" class="form-control" autocomplete="off">
-          </div>
-          <div class="form-check">
-            <input ngModel type="checkbox" id="nightstay" name="isWithNightStay" class="form-check-input">
-            <label for="nightstay" class="form-check-label"> Night Stay</label>
-          </div>
-          <div class="form-group">
-            <label for="opinion" class="form-label">Opinion:</label>
-            <textarea ngModel id="opinion" rows="5" name="opinion" class="form-control"></textarea>
-          </div>
-        <button type="submit" [disabled]="newBallroomForm.invalid || isFormInvalid()" class="btn btn-primary">Save!</button>
-        <button type="button" class="btn btn-danger ml-2" (click)="changeAddMode()">Cancel</button>
-      </form>
-    </div>
+  <h2
+    style="
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    ">
+    Venue
+  </h2>
+  <main-description
+    >Ballrooms have an elegant charm that can elevate any wedding reception.
+    From celebrating your first dance as newlyweds surrounded by loved ones to
+    the traditional bouquet toss, a ballroom wedding can host some of your
+    favorite memories. When choosing the ballroom for your wedding reception, it
+    is important to remember that the majority of your wedding day—and
+    ultimately candid shots from your wedding—will be spent in this
+    space.</main-description
+  >
 
-    <div *ngIf="editMode">
-      <p class="h4 mt-5">Edit venue information:</p>
-      <form #editBallroomForm="ngForm" (ngSubmit)="submitEditForm(editBallroomForm.value)">
-          <div class="form-group">
-            <input type="hidden" id="id" name="id" class="form-control" [ngModel]="editedBallroom.id" autocomplete="off">
-          </div>
-          <div class="form-group">
-            <label for="name" class="form-label">Name:</label>
-            <input type="text" id="name" name="name" class="form-control" [ngModel]="editedBallroom.name" autocomplete="off">
-          </div>
-          <div class="form-group">
-            <label for="city" class="form-label">City:</label>
-            <input ngModel type="text" id="city" name="city" class="form-control" [ngModel]="editedBallroom.city" autocomplete="off">
-          </div>
-          <div class="form-group">
-            <label for="distance" class="form-label">Distance (km):</label>
-            <input ngModel type="number" step="0.1" id="distance" name="distance" class="form-control" [ngModel]="editedBallroom.distance" autocomplete="off">
-          </div>
-          <div class="form-group">
-            <label for="dates" class="form-label">Available dates:</label>
-            <input id="dates" name="dates" class="form-control" [ngModel]="availableDatesEdit" type="hidden" readonly/>
-            <div *ngIf="availableDatesEdit.length > 0">
-              <div *ngFor="let availableDateEdit of availableDatesEdit" class="input-sub-element">
-                <span>{{availableDateEdit}}</span><span class="button-x" (click)="removeDateEdit(availableDateEdit)">X</span>
-              </div>
-            </div>
-            <input #datesInputEdit type="date" id="datesInput" name="datesInput" class="form-control" (input)="handleDateInputEdit(datesInputEdit)">
-          </div>
-          <div class="form-group">
-            <label for="price" class="form-label">Price:</label>
-            <input type="number" step="0.01" id="price" name="price" class="form-control" [ngModel]="editedBallroom.price">
-          </div>  
-          <div class="form-group">
-            <label for="pricePerNight" class="form-label">Price per night:</label>
-            <input type="number" id="pricePerNight" name="pricePerNight" class="form-control" [ngModel]="editedBallroom.pricePerNight" autocomplete="off">
-          </div>
-          <div class="form-check">
-            <input type="checkbox" id="nightstay" name="isWithNightStay" class="form-check-input" [ngModel]="editedBallroom.isWithNightStay">
-            <label for="nightstay" class="form-check-label"> Night Stay</label>
-          </div>
-          <div class="form-group">
-            <label for="opinion" class="form-label">Opinion:</label>
-            <textarea id="opinion" rows="5" name="opinion" class="form-control" [ngModel]="editedBallroom.opinion"></textarea>
-          </div>
-        <button type="submit" [disabled]="editBallroomForm.invalid" class="btn btn-primary">Save!</button>
-        <button type="button" class="btn btn-danger ml-2" (click)="changeEditMode(null)">Cancel</button>
-      </form>
-    </div>
-    
+  <div *ngIf="!addMode && !editMode">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">City</th>
+          <th scope="col">Distance</th>
+          <th scope="col">Available Dates</th>
+          <th scope="col">Price</th>
+          <th scope="col">Guest rooms</th>
+          <th scope="col">Price per night</th>
+          <th scope="col">Comments</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ballroom of ballrooms; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ ballroom.name }}</td>
+          <td>{{ ballroom.city }}</td>
+          <td>{{ ballroom.distance }}</td>
+          <td>
+            <span *ngFor="let date of ballroom.availableDates; index as j">
+              <span *ngIf="j != 0">,</span>
+              {{ date | date: 'dd.MM.yyyy' }}</span
+            >
+          </td>
+          <td>{{ ballroom.price }}</td>
+          <td style="text-align: center">
+            <input
+              [attr.checked]="ballroom.isWithNightStay ? true : null"
+              disabled
+              type="checkbox"
+              class="form-check-input" />
+          </td>
+          <td>{{ ballroom.pricePerNight }}</td>
+          <td>{{ ballroom.opinion }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="changeEditMode(ballroom)">
+              Edit
+            </button>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="removeBallroom(ballroom)">
+              Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button
+      type="button"
+      class="btn btn-primary my-sm-4"
+      (click)="changeAddMode()">
+      Add new element
+    </button>
   </div>
+
+  <div *ngIf="addMode">
+    <p class="h4 mt-5">Add new venue by filling this form:</p>
+    <form
+      #newBallroomForm="ngForm"
+      (ngSubmit)="submitAddForm(newBallroomForm.value)">
+      <div
+        class="form-group"
+        [ngClass]="{
+          error:
+            newBallroomForm.controls.name?.invalid &&
+            newBallroomForm.controls.name?.touched
+        }">
+        <label for="name" class="form-label">Name * :</label>
+        <em
+          *ngIf="
+            newBallroomForm.controls.name?.invalid &&
+            newBallroomForm.controls.name?.touched
+          "
+          >Required</em
+        >
+        <input
+          ngModel
+          type="text"
+          id="name"
+          name="name"
+          class="form-control"
+          required
+          autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <label for="city" class="form-label">City:</label>
+        <input
+          ngModel
+          type="text"
+          id="city"
+          name="city"
+          class="form-control"
+          autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <label for="distance" class="form-label">Distance (km):</label>
+        <em [ngClass]="{ 'error-em': formErrors?.distance?.isLessThanZero }"
+          >Value must be greater than zero</em
+        >
+        <em [ngClass]="{ 'error-em': formErrors?.distance?.isNotANumber }"
+          >Value must be a valid number</em
+        >
+        <!-- (ngModelChange)="modelChangeFn(distanceInput, $event) [(ngModel)]="distanceAdd"" -->
+        <input
+          ngModel
+          #distanceInput
+          (input)="validateNumber(distanceInput)"
+          [ngClass]="{
+            'error-in':
+              formErrors?.distance?.isNotANumber ||
+              formErrors?.distance?.isLessThanZero
+          }"
+          type="text"
+          id="distance"
+          name="distance"
+          class="form-control"
+          autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <label for="dates" class="form-label">Available dates:</label>
+        <input
+          id="dates"
+          name="dates"
+          class="form-control"
+          [(ngModel)]="availableDatesAdd"
+          type="hidden"
+          readonly />
+        <div *ngIf="availableDatesAdd.length > 0">
+          <div
+            *ngFor="let availableDateAdd of availableDatesAdd"
+            class="input-sub-element">
+            <span>{{ availableDateAdd }}</span
+            ><span class="button-x" (click)="removeDateAdd(availableDateAdd)"
+              >X</span
+            >
+          </div>
+        </div>
+        <input
+          #datesInput
+          type="date"
+          id="datesInput"
+          name="datesInput"
+          class="form-control"
+          (input)="handleDateInputAdd(datesInput)" />
+      </div>
+      <div class="form-group">
+        <label for="price" class="form-label">Price:</label>
+        <em [ngClass]="{ 'error-em': formErrors?.price?.isLessThanZero }"
+          >Value must be greater than zero</em
+        >
+        <em [ngClass]="{ 'error-em': formErrors?.price?.isNotANumber }"
+          >Value must be a valid number</em
+        >
+        <input
+          ngModel
+          #priceInput
+          (input)="validateNumber(priceInput)"
+          type="text"
+          id="price"
+          name="price"
+          class="form-control"
+          autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <label for="pricePerNight" class="form-label">Price per night:</label>
+        <em
+          [ngClass]="{ 'error-em': formErrors?.pricePerNight?.isLessThanZero }"
+          >Value must be greater than zero</em
+        >
+        <em [ngClass]="{ 'error-em': formErrors?.pricePerNight?.isNotANumber }"
+          >Value must be a valid number</em
+        >
+        <input
+          ngModel
+          #pricePerNightInput
+          (input)="validateNumber(pricePerNightInput)"
+          type="text"
+          id="pricePerNight"
+          name="pricePerNight"
+          class="form-control"
+          autocomplete="off" />
+      </div>
+      <div class="form-check">
+        <input
+          ngModel
+          type="checkbox"
+          id="nightstay"
+          name="isWithNightStay"
+          class="form-check-input" />
+        <label for="nightstay" class="form-check-label"> Night Stay</label>
+      </div>
+      <div class="form-group">
+        <label for="opinion" class="form-label">Opinion:</label>
+        <textarea
+          ngModel
+          id="opinion"
+          rows="5"
+          name="opinion"
+          class="form-control"></textarea>
+      </div>
+      <button
+        type="submit"
+        [disabled]="newBallroomForm.invalid || isFormInvalid()"
+        class="btn btn-primary">
+        Save!
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger ml-2"
+        (click)="changeAddMode()">
+        Cancel
+      </button>
+    </form>
+  </div>
+
+  <div *ngIf="editMode">
+    <p class="h4 mt-5">Edit venue information:</p>
+    <form
+      #editBallroomForm="ngForm"
+      (ngSubmit)="submitEditForm(editBallroomForm.value)">
+      <div class="form-group">
+        <input
+          type="hidden"
+          id="id"
+          name="id"
+          class="form-control"
+          [ngModel]="editedBallroom.id"
+          autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <label for="name" class="form-label">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="form-control"
+          [ngModel]="editedBallroom.name"
+          autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <label for="city" class="form-label">City:</label>
+        <input
+          ngModel
+          type="text"
+          id="city"
+          name="city"
+          class="form-control"
+          [ngModel]="editedBallroom.city"
+          autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <label for="distance" class="form-label">Distance (km):</label>
+        <input
+          ngModel
+          type="number"
+          step="0.1"
+          id="distance"
+          name="distance"
+          class="form-control"
+          [ngModel]="editedBallroom.distance"
+          autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <label for="dates" class="form-label">Available dates:</label>
+        <input
+          id="dates"
+          name="dates"
+          class="form-control"
+          [ngModel]="availableDatesEdit"
+          type="hidden"
+          readonly />
+        <div *ngIf="availableDatesEdit.length > 0">
+          <div
+            *ngFor="let availableDateEdit of availableDatesEdit"
+            class="input-sub-element">
+            <span>{{ availableDateEdit }}</span
+            ><span class="button-x" (click)="removeDateEdit(availableDateEdit)"
+              >X</span
+            >
+          </div>
+        </div>
+        <input
+          #datesInputEdit
+          type="date"
+          id="datesInput"
+          name="datesInput"
+          class="form-control"
+          (input)="handleDateInputEdit(datesInputEdit)" />
+      </div>
+      <div class="form-group">
+        <label for="price" class="form-label">Price:</label>
+        <input
+          type="number"
+          step="0.01"
+          id="price"
+          name="price"
+          class="form-control"
+          [ngModel]="editedBallroom.price" />
+      </div>
+      <div class="form-group">
+        <label for="pricePerNight" class="form-label">Price per night:</label>
+        <input
+          type="number"
+          id="pricePerNight"
+          name="pricePerNight"
+          class="form-control"
+          [ngModel]="editedBallroom.pricePerNight"
+          autocomplete="off" />
+      </div>
+      <div class="form-check">
+        <input
+          type="checkbox"
+          id="nightstay"
+          name="isWithNightStay"
+          class="form-check-input"
+          [ngModel]="editedBallroom.isWithNightStay" />
+        <label for="nightstay" class="form-check-label"> Night Stay</label>
+      </div>
+      <div class="form-group">
+        <label for="opinion" class="form-label">Opinion:</label>
+        <textarea
+          id="opinion"
+          rows="5"
+          name="opinion"
+          class="form-control"
+          [ngModel]="editedBallroom.opinion"></textarea>
+      </div>
+      <button
+        type="submit"
+        [disabled]="editBallroomForm.invalid"
+        class="btn btn-primary">
+        Save!
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger ml-2"
+        (click)="changeEditMode(null)">
+        Cancel
+      </button>
+    </form>
+  </div>
+</div>

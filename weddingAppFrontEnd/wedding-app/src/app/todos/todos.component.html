@@ -1,61 +1,112 @@
 <thumbnail [src]="image"></thumbnail>
 <div class="container">
-    <h2 style="margin-left: auto; margin-right: auto; margin-top: 20px; text-align: center; font-weight: bold;">
-        To Do List
-    </h2>
-    <main-description>You said yes (or popped the question yourself) and announced your engagement to your family and friends… but now what? The average couple plan their wedding in 13 months, but with so many tasks to take care of, it can be difficult to know where to start. Breaking down your wedding to-do list into monthly chunks can make everything seem that little bit more manageable, taking away the stress and injecting the fun back into your wedding planning journey.</main-description>
-  
-    <hr>
-  
-    <div *ngIf="!addMode">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">task</th>
-            <th scope="col">year</th>
-            <th scope="col">month</th>
-            <th scope="col">done</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let todo of todos; index as i">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{todo.description}}</td>
-            <td>{{todo.year}}</td>
-            <td>{{todo.month}}</td>
-            <td><input [attr.checked]="todo.done ? true : null" disabled type="checkbox" class="form-check-input"/></td>
-            <td><button type="button" class="btn btn-primary" (click)="removeTodo(todo)">Remove</button></td>
-          </tr>
-        </tbody>
-      </table>
+  <h2
+    style="
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    ">
+    To Do List
+  </h2>
+  <main-description
+    >You said yes (or popped the question yourself) and announced your
+    engagement to your family and friends… but now what? The average couple plan
+    their wedding in 13 months, but with so many tasks to take care of, it can
+    be difficult to know where to start. Breaking down your wedding to-do list
+    into monthly chunks can make everything seem that little bit more
+    manageable, taking away the stress and injecting the fun back into your
+    wedding planning journey.</main-description
+  >
 
-      <button type="button" class="btn btn-primary my-sm-4" (click)="changeAddMode()">
-        Dodaj nowy element
-      </button>
-    </div>
-  
-    <div *ngIf="addMode">
-      <p class="h4 mt-5">Add new todo by filling this form:</p>
-      <form #newTodoForm="ngForm" (ngSubmit)="submitForm(newTodoForm.value)">
-        <div class="form-group">
-          <label for="description" class="form-label">task:</label>
-          <input ngModel type="text" id="description" name="description" class="form-control">
-        </div>  
-        <div class="form-group">
-            <label for="year" class="form-label">year:</label>
-            <input ngModel type="text" id="year" name="year" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="month" class="form-label">month:</label>
-            <input ngModel type="text" id="month" name="month" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="done" class="form-label">done:</label>
-            <input ngModel type="checkbox" id="done" name="done" class="form-control">
-          </div>
-          <button type="submit" class="btn btn-primary">Zapisz!</button>
-          <button type="button" class="btn btn-primary ml-2" (click)="changeAddMode()">Anuluj</button>
-      </form>
-    </div>
+  <hr />
+
+  <div *ngIf="!addMode">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">task</th>
+          <th scope="col">year</th>
+          <th scope="col">month</th>
+          <th scope="col">done</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let todo of todos; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ todo.description }}</td>
+          <td>{{ todo.year }}</td>
+          <td>{{ todo.month }}</td>
+          <td>
+            <input
+              [attr.checked]="todo.done ? true : null"
+              disabled
+              type="checkbox"
+              class="form-check-input" />
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="removeTodo(todo)">
+              Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button
+      type="button"
+      class="btn btn-primary my-sm-4"
+      (click)="changeAddMode()">
+      Dodaj nowy element
+    </button>
   </div>
+
+  <div *ngIf="addMode">
+    <p class="h4 mt-5">Add new todo by filling this form:</p>
+    <form #newTodoForm="ngForm" (ngSubmit)="submitForm(newTodoForm.value)">
+      <div class="form-group">
+        <label for="description" class="form-label">task:</label>
+        <input
+          ngModel
+          type="text"
+          id="description"
+          name="description"
+          class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="year" class="form-label">year:</label>
+        <input ngModel type="text" id="year" name="year" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="month" class="form-label">month:</label>
+        <input
+          ngModel
+          type="text"
+          id="month"
+          name="month"
+          class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="done" class="form-label">done:</label>
+        <input
+          ngModel
+          type="checkbox"
+          id="done"
+          name="done"
+          class="form-control" />
+      </div>
+      <button type="submit" class="btn btn-primary">Zapisz!</button>
+      <button
+        type="button"
+        class="btn btn-primary ml-2"
+        (click)="changeAddMode()">
+        Anuluj
+      </button>
+    </form>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 export interface Guest {
-    username : string;
-    firstName : string;
-    surname : string;
-    side : string;
+  username: string;
+  firstName: string;
+  surname: string;
+  side: string;
 }
