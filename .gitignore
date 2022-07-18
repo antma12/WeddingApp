@@ -1,0 +1,3 @@
+*.idea
+weddingAppBackEnd/target
+weddingAppFrontEnd/wedding-app/node_modules

@@ -1,0 +1,68 @@
+<thumbnail [src]="image"></thumbnail>
+<div class="container">
+    <h2 style="margin-left: auto; margin-right: auto; margin-top: 20px; text-align: center; font-weight: bold;">
+        Mass Functions
+    </h2>
+    <main-description>In the wedding liturgy, the bride and groom are ministers of the sacrament of marriage. Other  ministries  usually  at  work  in  the  Sunday  assembly  also  function  in  the  wedding  liturgy: ministers  of  hospitality (ushers),  ministers  of  the  word (lectors)and  eucharist(communion), ministers of music.</main-description>
+  
+    <hr>
+  
+    <div *ngIf="!addMode">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">name</th>
+            <th scope="col">guest</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let massFunction of massFunctions; index as i">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{massFunction.name}}</td>
+            <td *ngFor="let guest of massFunction.guests;">
+              {{guest.firstName}} {{guest.surname}}
+            </td>
+            <td><button type="button" class="btn btn-primary" (click)="removeMassFunction(massFunction)">Remove</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button type="button" class="btn btn-primary my-sm-4" (click)="changeAddMode()">
+        Dodaj nowy element
+      </button>
+    </div>
+  
+    <div *ngIf="addMode">
+      <p class="h4 mt-5">Add new mass function by filling this form:</p>
+      <form #newMassFunctionForm="ngForm" (ngSubmit)="submitForm(newMassFunctionForm.value)">
+          <div class="form-group">
+            <label for="name" class="form-label">Name:</label>
+            <input ngModel type="text" id="name" name="name" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="guests" class="form-label">Guests:</label>
+            <!-- In case of using Angular material there is an option of ready to use element:  -->
+            <!-- <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let guest of guests" [value]="guest">
+                {{guest}}
+              </mat-option>
+            </mat-autocomplete> -->
+
+            <input ngModel id="guests" name="guests"  class="form-control" [(ngModel)]="guestCollection" readonly/>
+            
+            <div *ngIf="guestCollection !== ''">
+              <div #guests *ngFor="let guestName of guestNames" style="background-color: greenyellow;display: inline-block;margin: 5px;padding: 10px;border: grey;border-radius: 8px;border-style: solid;">
+                <span>{{guestName}}</span><span style="padding-left: 8px; color: gray; cursor: pointer;" (click)="removeGuest(guestName)">X</span>
+              </div>
+            </div>
+            <input #guestInput (keyup)="getGuestIds()" (click)="getGuestIds()" (input)="forceSelection(guestInput)" class="form-control" list="guestAutocomplete">
+            <datalist id="guestAutocomplete">
+              <option *ngFor="let guest of guests" [value]="guest.username">{{guest.firstName}} {{guest.surname}}</option>
+           </datalist>
+          </div>
+          <button type="submit" class="btn btn-primary">Zapisz!</button>
+          <button type="button" class="btn btn-primary ml-2" (click)="changeAddMode()">Anuluj</button>
+      </form>
+    </div>
+  </div>

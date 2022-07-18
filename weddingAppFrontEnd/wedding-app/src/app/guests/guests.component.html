@@ -1,0 +1,59 @@
+<thumbnail [src]="image"></thumbnail>
+<div class="container">
+    <h2 style="margin-left: auto; margin-right: auto; margin-top: 20px; text-align: center; font-weight: bold;">
+        Guests
+    </h2>
+    <main-description>First thing your friends and family need to know is where your wedding is going to be. The name of the venue is likely to be mentioned on the main wedding invitation, but the wedding guest information cards allow you to add more details. For example, you could include a map with directions. This is especially useful if it’s a countryside venue that’s a little off the beaten track. Alternatively, the full address with a postcode for satnavs, a phone number and the venue’s website will often suffice.</main-description>
+  
+    <hr>
+  
+    <div *ngIf="!addMode">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First name</th>
+            <th scope="col">Surname</th>
+            <th scope="col">Side</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let guest of guests; index as i">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{guest.firstName}}</td>
+            <td>{{guest.surname}}</td>
+            <td>{{guest.side}}</td>
+            <td>
+              <!-- TODO: make bootstrap glyphicon work -->
+              <!-- <span class="glyphicon glyphicon-remove"></span> Remove  -->
+              <button type="button" class="btn btn-primary" (click)="removeGuest(guest)">Remove</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+     
+      <button type="button" class="btn btn-primary my-sm-4" (click)="changeAddMode()">
+        Dodaj nowy element
+      </button>
+    </div>
+  
+    <div *ngIf="addMode">
+      <p class="h4 mt-5">Add new guest by filling this form:</p>
+      <form #newGuestForm="ngForm" (ngSubmit)="submitForm(newGuestForm.value)">
+          <div class="form-group">
+            <label for="firstName" class="form-label">First name:</label>
+            <input ngModel type="text" id="firstName" name="firstName" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="surname" class="form-label">Surname:</label>
+            <input ngModel type="text" id="surname" name="surname" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="side" class="form-label">Side:</label>
+            <input ngModel type="text" id="side" name="side" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-primary">Zapisz!</button>
+          <button type="button" class="btn btn-primary ml-2" (click)="changeAddMode()">Anuluj</button>
+      </form>
+  </div>
+</div>
