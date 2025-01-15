@@ -58,14 +58,12 @@ export class BallroomComponent {
   public editedBallroom;
   public availableDatesAdd = [];
   public availableDatesEdit = [];
-  // public distanceAdd;
 
   formErrors: any = {};
 
   constructor(
     private ballroomService: BallroomService,
     private router: Router,
-    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit() {

@@ -10,7 +10,7 @@
     ">
     Venue
   </h2>
-  <main-description
+  <main-description id="description"
     >Ballrooms have an elegant charm that can elevate any wedding reception.
     From celebrating your first dance as newlyweds surrounded by loved ones to
     the traditional bouquet toss, a ballroom wedding can host some of your
@@ -78,6 +78,7 @@
     </table>
 
     <button
+      id="addNew"
       type="button"
       class="btn btn-primary my-sm-4"
       (click)="changeAddMode()">
@@ -88,6 +89,7 @@
   <div *ngIf="addMode">
     <p class="h4 mt-5">Add new venue by filling this form:</p>
     <form
+      id="newBallroomForm"
       #newBallroomForm="ngForm"
       (ngSubmit)="submitAddForm(newBallroomForm.value)">
       <div

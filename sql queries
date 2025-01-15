@@ -1,0 +1,73 @@
+CREATE TABLE Guest (
+username varchar(16),
+name varchar(16),
+surname varchar(16),
+side varchar(16)
+);
+
+CREATE TABLE public.ballroom
+(
+  id bigint,
+  "name" character varying(16),
+  city character varying(16),
+  distance double precision,
+  availableDates bit,
+  price  numeric,
+  nightStay bit,
+  pricePerNight numeric,
+  opinion character varying(64)
+)
+
+CREATE TABLE band
+(
+  id bigint,
+  "name" character varying(16),
+  info character varying(64),
+  price numeric,
+  availableDates date,
+  opinion  character varying(64)
+)
+
+CREATE TABLE expense
+(
+  id bigint,
+  "name" character varying(16),
+  type character varying(16),
+  mincost numeric,
+  maxcost numeric,
+  actualcost numeric,
+  splitcost bit
+)
+
+CREATE TABLE massfunction
+(
+  id bigint,
+  "name" character varying(16),
+  guestid bigint
+)
+
+CREATE TABLE song
+(
+  id bigint,
+  "name" character varying(16),
+  artist character varying(16),
+  comment character varying(64)
+)
+
+CREATE TABLE todo
+(
+  id bigint,
+  year int,
+  month int,
+  description character varying(64),
+  done bit
+)
+
+CREATE TABLE videographer
+(
+  id bigint,
+  website character varying(64),
+  cameraman bit,
+  photographer bit,
+  chosen bit
+)

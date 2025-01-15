@@ -26,6 +26,7 @@ import { MassFunctionService } from './mass-functions/mass-function.service';
 import { TodoService } from './todos/TodoService';
 import { ExpenseService } from './expenses/expense.service';
 import { NumberInput } from './number-input/number-input.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { NumberInput } from './number-input/number-input.component';
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     RouterModule,
     RouterModule.forRoot(appRoutes),
     HttpClientModule,
